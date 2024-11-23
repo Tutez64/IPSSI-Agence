@@ -23,8 +23,10 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Accueil</a>
                     </li>
                 </ul>
-	            <?php if(isset($_SESSION['user'])){
-		            echo '<li class="nav-item dropdown">
+	            <?php
+	            if (isset($_SESSION['user'])) {
+		            if (unserialize($_SESSION['user'])->getRole() == "Customer") {
+			            echo '<li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Mon compte
                                 </a>
@@ -35,7 +37,23 @@
                                     <li><a class="dropdown-item" href="?action=logout">Se déconnecter</a></li>
                                 </ul>
                             </li>';
-	            }?>
+                    }
+		            else
+			            if (unserialize($_SESSION['user'])->getRole() == "Admin") {
+				            echo '<li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Mon compte
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Gérer les véhicules</a></li>
+                                    <li><a class="dropdown-item" href="#">Gérer les utilisateurs</a></li>
+                                    <li><a class="dropdown-item" href="#">Gérer les réservations</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="?action=logout">Se déconnecter</a></li>
+                                </ul>
+                            </li>';
+			            }
+		            }?>
                 <?php if(!isset($_SESSION['user'])){
                     echo '<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal" style="margin: 10px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
