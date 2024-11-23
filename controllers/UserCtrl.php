@@ -2,9 +2,10 @@
 
 class UserCtrl {
 	public function userActions(): void {
+
 		$userMdl = new UserMdl();
 
-		if(isset($_GET['action'])){
+		if(isset($_GET['action'])) {
 			$action = $_GET['action'];
 
 			switch($action){
@@ -20,10 +21,10 @@ class UserCtrl {
 			}
 
 
-		} else if( isset($_POST['signup']) ){
+		} else if(isset($_POST['signup'])) {
 			extract($_POST);
 
-			$p = new Person($id, $civility, $first_name, $last_name, $login, $email, "Customer", $signup_date,
+			$p = new Person(0, $civility, $first_name, $last_name, $login, $email, "Customer", new DateTime(),
 				$phone_number, password_hash($password, PASSWORD_DEFAULT));;
 
 			$userMdl->inserer($p);
@@ -34,10 +35,18 @@ class UserCtrl {
 		} else if( isset($_POST['signin']) ){
 			extract($_POST);
 
-			$userMdl->login($login, $mdp);
+			$userMdl->login($login, $password);
 
 			header("location: ?action=customer_dashboard");
 			exit;
 		}
+	}
+
+	function isConnected(): bool {
+		return isset($_SESSION['user']);
+	}
+
+	function isAdmin(): bool {
+		return $this->isConnected() && unserialize($_SESSION['user'])->getRole() == "Admin";
 	}
 }
