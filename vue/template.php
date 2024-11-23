@@ -22,20 +22,20 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.php">Accueil</a>
                     </li>
-                    <?php if(isset($_SESSION['user'])){
-                        echo '<li class="nav-item dropdown">
+                </ul>
+	            <?php if(isset($_SESSION['user'])){
+		            echo '<li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Mon compte
                                 </a>
-                                <ul class="dropdown-menu">
+                                <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="#">Nouvelle réservation</a></li>
-                                    <li><a class="dropdown-item" href="#">Voir mes réversations</a></li>
+                                    <li><a class="dropdown-item" href="#">Voir mes réservations</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="?action=logout">Se déconnecter</a></li>
                                 </ul>
                             </li>';
-                        }?>
-                </ul>
+	            }?>
                 <?php if(!isset($_SESSION['user'])){
                     echo '<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#signupModal" style="margin: 10px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
