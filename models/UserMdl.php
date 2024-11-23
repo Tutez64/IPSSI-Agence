@@ -1,6 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
 
 class UserMdl extends GenericMdl {
 
@@ -14,8 +13,8 @@ class UserMdl extends GenericMdl {
 
 		while($u = $res->fetch()){
 			extract($u);
-			$tab[] = new Person($id, $civility, $first_name, $last_name, $login, $email, $role, $signup_date,
-				$phone_number, password_hash($password, PASSWORD_DEFAULT));
+			$tab[] = new Person($id, $civility, $first_name, $last_name, $login, $email, $role, date_create_from_format('Y-m-d H:i:s', $signup_date),
+				$phone_number, $password);
 		}
 
 		return $tab;
@@ -27,11 +26,11 @@ class UserMdl extends GenericMdl {
 
 		extract($stmt->fetch());
 
-		return new Person($id, $civility, $first_name, $last_name, $login, $email, $role, $signup_date,
+		return new Person($id, $civility, $first_name, $last_name, $login, $email, $role, date_create_from_format('Y-m-d H:i:s', $signup_date),
 			$phone_number, $password);
 	}
 
-	#[NoReturn] public function inserer(Person $p): void
+	public function inserer(Person $p)
 	{
 		$query = "INSERT INTO Person VALUES(NULL, :civility, :first_name, :last_name, :login, :email, 'Customer',
                             now(), :phone_number, :password)";
@@ -55,7 +54,8 @@ class UserMdl extends GenericMdl {
 		exit;
 	}
 
-	public function login(string $login, string $password){
+	public function login(string $login, string $password): ?string
+	{
 		$query = "SELECT * FROM Person WHERE login = ?";
 
 		$stmt = $this->pdo->prepare($query);
@@ -68,7 +68,8 @@ class UserMdl extends GenericMdl {
 			//TEST SUR MDP
 			if( password_verify($password, $res['password']) ){
 				extract($res);
-				$p = new Person($id, $civility, $first_name, $last_name, $login, $email, $role, $signup_date,
+
+				$p = new Person($id, $civility, $first_name, $last_name, $login, $email, $role, date_create_from_format('Y-m-d H:i:s', $signup_date),
 					$phone_number, $password);
 
 				//SESSION
@@ -77,6 +78,6 @@ class UserMdl extends GenericMdl {
 				return $_SESSION['user'];
 			}
 		}
-
+		return null;
 	}
 }
