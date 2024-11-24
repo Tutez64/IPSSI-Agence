@@ -8,6 +8,10 @@ class UserCtrl {
 			$userMdl->addEntry($_SESSION['table'], $_POST);
 		}
 
+		if (isset($_POST['del_entry'])){
+			$userMdl->delEntry($_SESSION['table'], $_POST['del_entry']);
+		}
+
 		if (isset($_GET['action'])) {
 			$action = $_GET['action'];
 

@@ -3,15 +3,14 @@
 
 class UserMdl extends GenericMdl {
 
-	public function getUsersByRole(string $role): array
-	{
+	public function getUsersByRole(string $role): array {
 		$res = $this->executeReq("SELECT * FROM Person WHERE role = :role", [
 			"role" => $role
 		]);
 
 		$tab = [];
 
-		while($u = $res->fetch()){
+		while($u = $res->fetch()) {
 			extract($u);
 			$tab[] = new Person($id, $civility, $first_name, $last_name, $login, $email, $role, date_create_from_format('Y-m-d H:i:s', $signup_date),
 				$phone_number, $password);
@@ -20,8 +19,7 @@ class UserMdl extends GenericMdl {
 		return $tab;
 	}
 
-	public function userById(int $id): Person
-	{
+	public function userById(int $id): Person {
 		$stmt = $this->executeReq("SELECT * FROM Person WHERE id = :id", ["id" => $id]);
 
 		extract($stmt->fetch());
@@ -30,8 +28,7 @@ class UserMdl extends GenericMdl {
 			$phone_number, $password);
 	}
 
-	public function inserer(Person $p)
-	{
+	public function inserer(Person $p) {
 		$query = "INSERT INTO Person VALUES(NULL, :civility, :first_name, :last_name, :login, :email, 'Customer',
                             now(), :phone_number, :password)";
 
@@ -54,8 +51,7 @@ class UserMdl extends GenericMdl {
 		exit;
 	}
 
-	public function login(string $login, string $password): ?string
-	{
+	public function login(string $login, string $password): ?string {
 		$query = "SELECT * FROM Person WHERE login = ?";
 
 		$stmt = $this->pdo->prepare($query);
@@ -63,7 +59,7 @@ class UserMdl extends GenericMdl {
 		$stmt->execute([$login]);
 
 		//SI LOGIN EST TROUVE DANS BD
-		if($stmt->rowCount() != 0){
+		if($stmt->rowCount() != 0) {
 			$res = $stmt->fetch();
 			//TEST SUR MDP
 			if( password_verify($password, $res['password']) ){
@@ -81,8 +77,8 @@ class UserMdl extends GenericMdl {
 		return null;
 	}
 
-	public function addEntry(string $table, array $data): void
-	{
+	public function addEntry(string $table, array $data): void {
+		array_pop($data);
 		array_pop($data);
 
 		if (isset($data['password'])) {
@@ -94,5 +90,10 @@ class UserMdl extends GenericMdl {
 		$query = "INSERT INTO $table ($keys) VALUES ($values)";
 		$query = str_replace("''", 'DEFAULT', $query);
 		$this->executeReq($query);
+	}
+
+	public function delEntry(string $table, string $id): void {
+		$query = "DELETE FROM $table WHERE id = :id";
+		$this->executeReq($query, ["id" => $id]);
 	}
 }

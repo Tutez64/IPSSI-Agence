@@ -1,6 +1,5 @@
 <?php
 echo '<form action="" method="POST">';
-$_SESSION['table'] = $table;
 foreach ($column_names as $column) {
 	echo '<div class="form-group">
 		<label for="'.$column.'">'.$column.'</label>'.
