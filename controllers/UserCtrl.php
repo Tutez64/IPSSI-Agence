@@ -2,10 +2,13 @@
 
 class UserCtrl {
 	public function userActions(): void {
-
 		$userMdl = new UserMdl();
 
-		if(isset($_GET['action'])) {
+		if (isset($_POST['add_entry'])){
+			$userMdl->addEntry($_SESSION['table'], $_POST);
+		}
+
+		if (isset($_GET['action'])) {
 			$action = $_GET['action'];
 
 			switch($action){
@@ -31,9 +34,9 @@ class UserCtrl {
 					session_destroy();
 					header("location: .");
 					exit;
-			}
+					}
 
-		} else if(isset($_POST['signup'])) {
+		} else if (isset($_POST['signup'])) {
 			extract($_POST);
 
 			$p = new Person(0, $civility, $first_name, $last_name, $login, $email, "Customer", new DateTime(),
@@ -44,7 +47,7 @@ class UserCtrl {
 			header("location: ?action=dashboard");
 			exit;
 
-		} else if( isset($_POST['signin']) ){
+		} else if (isset($_POST['signin'])){
 			extract($_POST);
 
 			$userMdl->login($login, $password);

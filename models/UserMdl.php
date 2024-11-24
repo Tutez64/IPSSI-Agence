@@ -50,7 +50,7 @@ class UserMdl extends GenericMdl {
 
 		$_SESSION['user'] = serialize( $this->userById($lastId) );
 
-		header("location: ?action=customer_dashboard");
+		header("location: ?action=dashboard");
 		exit;
 	}
 
@@ -79,5 +79,20 @@ class UserMdl extends GenericMdl {
 			}
 		}
 		return null;
+	}
+
+	public function addEntry(string $table, array $data): void
+	{
+		array_pop($data);
+
+		if (isset($data['password'])) {
+			$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+		}
+
+		$keys = implode(', ', array_keys($data));
+		$values = "'" . implode("', '", array_values($data)) ."'";
+		$query = "INSERT INTO $table ($keys) VALUES ($values)";
+		$query = str_replace("''", 'DEFAULT', $query);
+		$this->executeReq($query);
 	}
 }
