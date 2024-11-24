@@ -9,17 +9,29 @@ class UserCtrl {
 			$action = $_GET['action'];
 
 			switch($action){
+				case "dashboard":
+					include "../vue/dashboard.php";
+					exit;
+				case "vehicles":
+					$table = "Vehicle";
+					$name = "véhicules";
+					include "../vue/admin_dashboard.php";
+					exit;
+				case "users":
+					$table = "Person";
+					$name = "utilisateurs";
+					include "../vue/admin_dashboard.php";
+					exit;
+				case "reservations":
+					$table = "Reservation";
+					$name = "réservations";
+					include "../vue/admin_dashboard.php";
+					exit;
 				case "logout":
 					session_destroy();
 					header("location: .");
 					exit;
-
-				case "customer":
-					$customers = $userMdl->getUsersByRole("Customer");
-					var_dump($customers); // Mettre une vue pour l'affichage
-					exit;
 			}
-
 
 		} else if(isset($_POST['signup'])) {
 			extract($_POST);
@@ -29,7 +41,7 @@ class UserCtrl {
 
 			$userMdl->inserer($p);
 
-			header("location: ?action=customer_dashboard");
+			header("location: ?action=dashboard");
 			exit;
 
 		} else if( isset($_POST['signin']) ){
@@ -37,7 +49,7 @@ class UserCtrl {
 
 			$userMdl->login($login, $password);
 
-			header("location: ?action=customer_dashboard");
+			header("location: ?action=dashboard");
 			exit;
 		}
 	}

@@ -45,9 +45,9 @@
                                     Mon compte
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Gérer les véhicules</a></li>
-                                    <li><a class="dropdown-item" href="#">Gérer les utilisateurs</a></li>
-                                    <li><a class="dropdown-item" href="#">Gérer les réservations</a></li>
+                                    <li><a class="dropdown-item" href="?action=vehicles">Gérer les véhicules</a></li>
+                                    <li><a class="dropdown-item" href="?action=users">Gérer les utilisateurs</a></li>
+                                    <li><a class="dropdown-item" href="?action=reservations">Gérer les réservations</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="?action=logout">Se déconnecter</a></li>
                                 </ul>
