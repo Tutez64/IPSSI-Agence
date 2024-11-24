@@ -34,6 +34,9 @@ class UserCtrl {
 					$name = "réservations";
 					include "../vue/admin_dashboard.php";
 					exit;
+				case "reservation":
+					include "../vue/reservation.php";
+					exit;
 				case "logout":
 					session_destroy();
 					header("location: .");

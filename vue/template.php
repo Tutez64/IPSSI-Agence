@@ -31,7 +31,7 @@
                                     Mon compte
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Nouvelle réservation</a></li>
+                                    <li><a class="dropdown-item" href="?action=reservation">Nouvelle réservation</a></li>
                                     <li><a class="dropdown-item" href="#">Voir mes réservations</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="?action=logout">Se déconnecter</a></li>
